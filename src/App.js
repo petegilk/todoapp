@@ -14,12 +14,18 @@ class App extends Component {
     }
   }
 
-  changeisClickedState = () => {
+  changeisClickedState = (event) => {
     this.setState({
       isClicked: !this.state.isClicked,
-      items: [...this.state.items, this.state.input],
-      input: ''
     })
+    if (this.state.input !== '') {
+      this.setState({
+        items: [...this.state.items, this.state.input],
+        input: ''
+      })
+    } else {
+      alert('Cannot add empty to-do item');
+    }
   }
 
   onChange = e => {
@@ -28,8 +34,8 @@ class App extends Component {
     })
   }
 
-  deleteItem = (index) => {
-    let todoList = this.state.items
+  deleteItem = (index) => () => {
+    let todoList = [...this.state.items]
     todoList.splice(index, 1);
     this.setState({
       items: todoList
@@ -37,14 +43,14 @@ class App extends Component {
   }
 
   render () {
-    console.log(this.state.input);
+    console.log(this.state.items);
     return (
       <div className="App">
         <input value={this.state.input} onChange={this.onChange} />
         <button onClick={this.changeisClickedState}>{this.state.isClicked === false ? "FALSE" : "TRUE"}</button>
         <ul>
           {this.state.items.map((item, index) => {
-            return <ToDoItem key={index} deleteButton={this.deleteItem(index)} listValue={item} />
+            return <ToDoItem key={index} listValue={item} deleteButton={this.deleteItem(index)} />
           })}
         </ul>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ToDoItem = props => {
+const ToDoItem = (props) => {
   return(
     <div>
       <li>{props.listValue}</li>
